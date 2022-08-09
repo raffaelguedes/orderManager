@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Adote</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/index.css">
+</head>
+<body>
+<p class="page-title">Centro de Adoção da Lorena</p>
+
+<ul class="cards">
+    <li th:each="stock : ${stockList}">
+        <div class="card">
+            <img th:src="${stock.item.urlImagem}" class="card__image" alt="" />
+            <div class="card__overlay">
+                <div class="card__header">
+                    <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>
+                    <div class="card__header-text">
+                        <h3 class="card__title" th:text="${stock.item.name}"/>
+                        <div th:if="${stock.quantity > 0}">
+                            <span class="card__status" th:text="${stock.quantity + ' a espera de adoção. Adote!'}"></span>
+                        </div>
+                        <div th:if="${stock.quantity == 0}">
+                            <span class="card__status">Nenhum disponivel, me avise futuramente. Adote!</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form">
+                    <form action="#"
+                          th:action="@{/adopt/{id}(id=${stock.id})}"
+                          th:object="${customer}"
+                          method="post">
+                        <label for="name" class="form-input">Nome</label>
+                        <input type="text" th:field="*{name}" id="name" placeholder="Nome">
+                        <label for="email" class="form-input">Email</label>
+                        <input type="text" th:field="*{email}" id="email" placeholder="Email">
+                        <button type="submit">Adotar</button>
+                    </form>
+                </div>
+                <p class="card__description"></p>
+            </div>
+        </div>
+    </li>
+</ul>
+</body>
+</html>

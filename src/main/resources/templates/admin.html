@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/index.css">
+</head>
+<body>
+<h2 class="page-title">Centro de administração</h2>
+
+<ul class="cards">
+    <li>
+        <div class="card admin">
+            <h1 class="admin-card-title">Cadastros</h1>
+
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Url</th>
+                    <th>Qtd</th>
+                    <th></th>
+                </tr>
+                <tr th:each="s : ${stockList}">
+                    <td th:text="${s.item.name}"></td>
+                    <td th:text="${s.item.urlImagem}"></td>
+                    <td th:text="${s.quantity}"></td>
+                    <td>
+                        <a th:href="@{/editStock/{id}(id=${s.id})}">Edit</a>
+                        <br>
+                        <br>
+                        <a th:href="@{/deleteStock/{id}(id=${s.id})}">Delete</a>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <br>
+            <div style="text-align: -webkit-center;">
+                <a th:href="@{/addStock/}">Adicionar</a>
+            </div>
+            <br>
+            <br>
+            <div class="form">
+                <form action="#"
+                      th:action="@{/updateStock/{id}(id=${stock.id})}"
+                      th:object="${stock}"
+                      method="post">
+                    <label for="name" class="form-input">Nome</label>
+                    <input type="text" th:field="*{item.name}" id="name" placeholder="Name">
+                    <label for="url" class="form-input">URL</label>
+                    <input type="text" th:field="*{item.urlImagem}" id="url" placeholder="URL">
+                    <label for="qtd" class="form-input">Qtde</label>
+                    <input type="text" th:field="*{quantity}" id="qtd">
+                    <label for="visible" class="form-input">Visible</label>
+                    <input id="visible" type="checkbox" name="visible" th:checked="*{visible}"/>
+                    <button type="submit">Salvar</button>
+                </form>
+            </div>
+            <div style="text-align: -webkit-center;margin-top:30px;font-size:14px;">
+                <a th:href="@{/}">Home</a></td>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="card admin" >
+            <h1 class="admin-card-title">Logs</h1>
+
+            <div style="text-align: -webkit-center;">
+                <table class="table">
+                    <tr>
+                        <th>Ação</th>
+                        <th>Mensagem</th>
+                    </tr>
+                    <tr th:each="l : ${logs}">
+                        <td th:text="${l.action}"></td>
+                        <td th:text="${l.message}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </li>
+</ul>
+</body>
+</html>
